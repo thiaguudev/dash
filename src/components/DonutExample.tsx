@@ -3,18 +3,18 @@
 import React from "react";
 import { Card, DonutChart, Text, Title } from "@tremor/react";
 
-const cities = [
+const data = [
   {
     name: "Neutrals",
-    sales: 112,
+    value: 112,
   },
   {
     name: "Detractors",
-    sales: 85,
+    value: 85,
   },
   {
     name: "Promoters",
-    sales: 101,
+    value: 101,
   },
 ];
 
@@ -27,9 +27,9 @@ export function DonutExample() {
       <Title className="text-3xl font-bold">Geral</Title>
       <DonutChart
         className="my-6"
-        data={cities}
+        data={data}
         showLabel={true}
-        category="sales"
+        category="value"
         index="name"
         variant="donut"
         label="298 responses"

@@ -17,7 +17,7 @@ export default function Sidebar() {
       <Image src="/logo.png" alt="" width={87} height={30} />
       <nav>
         <ul className="flex flex-col gap-5">
-          <li className="font-medium flex items-center justify-start gap-2">
+          <li className="font-medium text-[#7C8DB5] flex items-center justify-start gap-2">
             <Link href="" className="flex items-center">
               <Icon size="lg" icon={ChartBarIcon} className="text-#7C8DB5" />{" "}
               Overview

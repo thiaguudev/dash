@@ -14,7 +14,6 @@ export default function Dashboard() {
       >
         <UserNav />
         <Analytics />
-        {/* <Flex className="gap-5"> */}
         <Grid numItems={4} className="gap-6 w-full">
           <Col numColSpan={4} numColSpanSm={3}>
             <LineChartExample />
@@ -23,7 +22,6 @@ export default function Dashboard() {
             <DonutExample />
           </Col>
         </Grid>
-        {/* </Flex> */}
       </Flex>
     </div>
   );
