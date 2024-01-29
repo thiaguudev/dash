@@ -1,4 +1,4 @@
-import { Card, Flex } from "@tremor/react";
+import { Flex } from "@tremor/react";
 
 import Example from "./Example";
 import UserNav from "./UserNav";

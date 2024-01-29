@@ -13,7 +13,7 @@ import {
 
 export default function Sidebar() {
   return (
-    <div className="min-w-[281px] flex flex-col justify-between min-h-screen py-[72px] pl-14 pr-9 text-xl">
+    <div className="min-w-[281px] md:flex flex-col justify-between min-h-screen py-[72px] pl-14 pr-9 text-xl hidden">
       <Image src="/logo.png" alt="" width={87} height={30} />
       <nav>
         <ul className="flex flex-col gap-5">
