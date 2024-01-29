@@ -48,7 +48,7 @@ const categories = [
   },
 ];
 
-export default function Example() {
+export default function Analytics() {
   return (
     <Grid numItemsSm={4} className="gap-6 w-full">
       {categories.map((item) => (

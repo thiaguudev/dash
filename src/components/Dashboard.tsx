@@ -1,8 +1,9 @@
-import { Flex } from "@tremor/react";
+import { Col, Flex, Grid } from "@tremor/react";
 
-import Example from "./Example";
-import UserNav from "./UserNav";
 import LineChartExample from "./LineExample";
+import { DonutExample } from "./DonutExample";
+import UserNav from "./UserNav";
+import Analytics from "./Analytics";
 
 export default function Dashboard() {
   return (
@@ -12,10 +13,17 @@ export default function Dashboard() {
         className="flex-1 gap-5 px-3 md:px-14 py-[72px]"
       >
         <UserNav />
-        <Example />
-        <Flex>
-          <LineChartExample />
-        </Flex>
+        <Analytics />
+        {/* <Flex className="gap-5"> */}
+        <Grid numItems={4} className="gap-6 w-full">
+          <Col numColSpan={4} numColSpanSm={3}>
+            <LineChartExample />
+          </Col>
+          <Col numColSpan={4} numColSpanSm={1}>
+            <DonutExample />
+          </Col>
+        </Grid>
+        {/* </Flex> */}
       </Flex>
     </div>
   );
