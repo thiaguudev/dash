@@ -1,21 +1,12 @@
 "use client";
 
 import React from "react";
-import { Card, DonutChart, Text, Title } from "@tremor/react";
+import { Card, DonutChart, Title } from "@tremor/react";
 
 const data = [
-  {
-    name: "Neutrals",
-    value: 112,
-  },
-  {
-    name: "Detractors",
-    value: 85,
-  },
-  {
-    name: "Promoters",
-    value: 101,
-  },
+  { name: "Neutrals", value: 112 },
+  { name: "Detractors", value: 85 },
+  { name: "Promoters", value: 101 },
 ];
 
 const valueFormatter = (number: number) =>
@@ -35,7 +26,7 @@ export function DonutExample() {
         label="298 responses"
         colors={["gray", "red", "emerald"]}
       />
-      <Text className="text-6xl font-bold text-center">78%</Text>
+      <h1 className="text-5xl font-bold text-center">78%</h1>
     </Card>
   );
 }

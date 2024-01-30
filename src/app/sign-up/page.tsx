@@ -4,19 +4,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button, Switch, TextInput } from "@tremor/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { userCreate, userCreateForm } from "@/lib/constants";
+import API from "@/lib/API";
 
-export default function SignIn() {
+export default function SignUp() {
   const methods = useForm<userCreate>({
     resolver: zodResolver(userCreateForm),
   });
 
   const onSubmit: SubmitHandler<userCreate> = async (d) => {
-    const res = await signIn("credentials", d);
-    console.log("res", res);
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(d),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) console.log("Error in authentication!");
   };
 
   return (
