@@ -4,23 +4,17 @@ import { hash } from "bcrypt";
 import { prisma } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
+  let user = null;
   const data = await request.json();
-  const { email, password } = await data;
+  const { email, password } = data;
 
-  const isUserExists = await prisma.user.findUnique({
-    where: { email },
-  });
+  user = await prisma.user.findUnique({ where: { email } });
 
-  if (isUserExists) {
-    return NextResponse.json(
-      { success: false, error: "Email already in use" },
-      { status: 400 }
-    );
-  }
+  if (user) return NextResponse.json(user, { status: 201 });
 
   const hashPassword = await hash(password, 10);
 
-  const user = await prisma.user.create({
+  user = await prisma.user.create({
     data: {
       email,
       name: email.split("@")[0],
@@ -28,5 +22,5 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  return NextResponse.json({ success: true, user });
+  return NextResponse.json(user);
 }

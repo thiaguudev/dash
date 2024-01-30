@@ -2,21 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Switch, TextInput } from "@tremor/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Switch, TextInput } from "@tremor/react";
 
 import { userCreate, userCreateForm } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
+  const router = useRouter();
+
   const methods = useForm<userCreate>({
     resolver: zodResolver(userCreateForm),
   });
 
   const onSubmit: SubmitHandler<userCreate> = async (d) => {
-    const res = await signIn("credentials", d);
-    console.log("res", res);
+    const response = await signIn("credentials", {
+      email: d.email,
+      password: d.password,
+      redirect: false,
+    });
+
+    if (response?.ok) router.push("/");
   };
 
   return (

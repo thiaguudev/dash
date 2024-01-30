@@ -2,28 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Switch, TextInput } from "@tremor/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { Button, Switch, TextInput } from "@tremor/react";
 
 import { userCreate, userCreateForm } from "@/lib/constants";
-import API from "@/lib/API";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
+  const router = useRouter();
+
   const methods = useForm<userCreate>({
     resolver: zodResolver(userCreateForm),
   });
 
   const onSubmit: SubmitHandler<userCreate> = async (d) => {
-    const response = await fetch("/api/users", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(d),
+    const response = await signIn("credentials", {
+      email: d.email,
+      password: d.password,
+      redirect: false,
     });
 
-    const data = await response.json();
-
-    if (!response.ok) console.log("Error in authentication!");
+    if (response?.ok) router.push("/");
   };
 
   return (
@@ -37,7 +38,7 @@ export default function SignUp() {
             height={32}
             className="mx-auto sm:mx-0"
           />
-          <h2 className="font-semibold text-xl">Nice to see you again</h2>
+          <h2 className="font-semibold text-xl">Welcome to Dash.dash</h2>
 
           <div className="flex flex-col gap-1">
             <label className="text-xs">Login</label>
