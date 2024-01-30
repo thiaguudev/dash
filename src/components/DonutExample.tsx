@@ -35,7 +35,7 @@ export function DonutExample() {
         label="298 responses"
         colors={["gray", "red", "emerald"]}
       />
-      <Text className="text-5xl font-bold text-center">78%</Text>
+      <Text className="text-6xl font-bold text-center">78%</Text>
     </Card>
   );
 }
