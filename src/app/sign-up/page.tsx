@@ -4,11 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import { Button, Switch, TextInput } from "@tremor/react";
+import { useRouter } from "next/navigation";
 
 import { userCreate, userCreateForm } from "@/lib/constants";
-import { useRouter } from "next/navigation";
+import API from "@/lib/API";
 
 export default function SignUp() {
   const router = useRouter();
@@ -17,14 +17,14 @@ export default function SignUp() {
     resolver: zodResolver(userCreateForm),
   });
 
-  const onSubmit: SubmitHandler<userCreate> = async (d) => {
-    const response = await signIn("credentials", {
-      email: d.email,
-      password: d.password,
-      redirect: false,
-    });
+  const onSubmit: SubmitHandler<userCreate> = async (data) => {
+    try {
+      const response = await API.post("/api/users", data);
 
-    if (response?.ok) router.push("/");
+      router.push("/sign-in");
+    } catch (error) {
+      console.log("Error in Sign Up");
+    }
   };
 
   return (
@@ -52,6 +52,7 @@ export default function SignUp() {
             <label className="text-xs">Password</label>
             <TextInput
               placeholder="Enter password"
+              type="password"
               {...methods.register("password")}
             />
           </div>
@@ -77,9 +78,9 @@ export default function SignUp() {
           </div>
 
           <div className="text-center text-xs">
-            Dont have an account?{" "}
-            <Link href="" className="text-[#007AFF]">
-              Sign up now
+            You have an account?{" "}
+            <Link href="/sign-in" className="text-[#007AFF]">
+              Sign in now
             </Link>
           </div>
         </div>

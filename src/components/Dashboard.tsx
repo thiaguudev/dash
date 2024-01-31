@@ -1,3 +1,5 @@
+"use client";
+
 import { Col, Flex, Grid } from "@tremor/react";
 
 import LineChartExample from "./LineExample";

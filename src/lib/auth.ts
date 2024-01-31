@@ -1,9 +1,11 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { prisma } from "./db";
 import API from "./API";
+import { compare } from "bcrypt";
 
 const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
@@ -22,10 +24,20 @@ const authConfig: NextAuthConfig = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials): Promise<any> {
+      async authorize(credentials) {
         try {
-          const response = await API.post("/api/users", credentials);
-          return response.data;
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email as string },
+          });
+          console.log("[AUTHORIZE]", user);
+          if (user) {
+            const isValid = await compare(
+              credentials.password as string,
+              user.hashPassword
+            );
+            return isValid ? user : null;
+          }
+          return null;
         } catch (error) {
           return null;
         }
@@ -35,7 +47,12 @@ const authConfig: NextAuthConfig = {
   callbacks: {
     jwt: async ({ token }) => {
       token.name = token.email?.split("@")[0];
+      console.log("[JWT]");
       return token;
+    },
+    authorized: async ({ auth, request }) => {
+      console.log("[AUTHORIZED]");
+      return true;
     },
   },
 };
@@ -43,4 +60,6 @@ const authConfig: NextAuthConfig = {
 export const {
   handlers: { GET, POST },
   auth,
+  signIn,
+  signOut,
 } = NextAuth(authConfig);

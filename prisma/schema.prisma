@@ -55,3 +55,31 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Subscription {
+  id                     String    @id @default(cuid())
+  userId                 String    @unique
+  stripeCustomerId       String    @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
+  stripePriceId          String?   @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+  ended_at               DateTime
+  trial_start            DateTime
+  trial_end              DateTime
+  status                 String
+}
+
+model Team {
+  id String @id @default(cuid())
+}
+
+model Survey {
+  id        String  @id @default(cuid())
+  type      String
+  active    Boolean
+  scheduled Boolean
+}
+
+model Contact {
+  id String @id @default(cuid())
+}
