@@ -20,7 +20,6 @@ export default function SignUp() {
   const onSubmit: SubmitHandler<userCreate> = async (data) => {
     try {
       const response = await API.post("/api/users", data);
-
       router.push("/sign-in");
     } catch (error) {
       console.log("Error in Sign Up");
