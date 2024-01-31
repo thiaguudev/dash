@@ -3,12 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Switch, TextInput } from "@tremor/react";
+import { useRouter } from "next/navigation";
 
 import { userCreate, userCreateForm } from "@/lib/constants";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function SignIn() {
   const router = useRouter();
@@ -52,6 +52,7 @@ export default function SignIn() {
             <label className="text-xs">Password</label>
             <TextInput
               placeholder="Enter password"
+              type="password"
               {...methods.register("password")}
             />
           </div>
@@ -78,7 +79,7 @@ export default function SignIn() {
 
           <div className="text-center text-xs">
             Dont have an account?{" "}
-            <Link href="" className="text-[#007AFF]">
+            <Link href="/sign-up" className="text-[#007AFF]">
               Sign up now
             </Link>
           </div>

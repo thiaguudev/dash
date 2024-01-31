@@ -1,4 +1,5 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
+import NextAuth from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
@@ -23,12 +24,9 @@ const authConfig: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<any> {
-        try {
-          const response = await API.post("/api/users", credentials);
-          return response.data;
-        } catch (error) {
-          return null;
-        }
+        const user = {};
+        if (user) return user
+        return null;
       },
     }),
   ],
@@ -37,10 +35,16 @@ const authConfig: NextAuthConfig = {
       token.name = token.email?.split("@")[0];
       return token;
     },
+    authorized: async ({ auth, request }) => {
+      console.log("auth", auth);
+      return true;
+    },
   },
 };
 
 export const {
   handlers: { GET, POST },
   auth,
+  signIn,
+  signOut,
 } = NextAuth(authConfig);
